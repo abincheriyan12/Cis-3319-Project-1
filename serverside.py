@@ -1,3 +1,5 @@
+#Abin Cheriyan
+#Cis 3319 - Project 1
 from des import DesKey
 import socket
 
@@ -9,27 +11,26 @@ s.listen(10)
 with open("key", "r") as f:
     des_key = f.read()
 
-# keystr = "iamakeys" #key string must be multiple of 8
 key = DesKey(des_key.encode('utf-8')) #create key
-print("server is running...")
+print(" Server is running............ yayy")
 conn, addr = s.accept() #accept connection request
-print("accept new connection from %s"%(str(addr)))
-conn.send(str("connection has been established!").encode())
+print(" Accepted new connection from %s " % (str(addr)))
+conn.send(str(" Connection has been established! ").encode())
 while True:
     rcv = conn.recv(1024)
-    print("*"*18)
-    print("recieved ciphertext is: %s"%rcv.decode('utf-8', 'ignore'))
-    pt = key.decrypt(rcv, padding=True).decode() #decrypt the key
-    print("recieved plaintext is: %s"%pt)
-    print("*"*18)
-    if pt == "bye": #if recieved msg is bye then break and close the connection
+    print("*" * 20)
+    print(" Recieved ciphertext is: %s" % rcv.decode('utf-8', 'ignore'))
+    pt = key.decrypt(rcv, padding = True).decode() #decrypt the key
+    print(" Recieved plaintext is: %s " % pt)
+    print("*" *20)
+    if pt == "bye": #Bye breaks and closes the connection
         break
     msg = input("type your message: ")
     ct = key.encrypt(msg.encode('utf-8'), padding=True)
-    print("*"*18)
-    print("key is ", des_key)
-    print("sent plaintext is: %s"%msg)
-    print("sent ciphertext is: %s"%ct.decode('utf-8', 'ignore'))
-    print("*"*18)
-    conn.send(ct) #send ciphertext
+    print("*" *20)
+    print(" Key is ", des_key)
+    print(" Plaintext is: %s " % msg)
+    print(" Ciphertext is: %s " % ct.decode('utf-8', 'ignore'))
+    print("*" * 20)
+    conn.send(ct) #sending the ciphertext
 conn.close()
